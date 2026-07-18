@@ -1,81 +1,87 @@
 # Vienounce Core
 
-Vienounce Core is an open-source, offline Python library designed to analyze English pronunciation and detect common L1 transfer errors specific to Vietnamese speakers. It uses a unified bilingual phonetic space to align user recordings and generate phone-level Goodness of Pronunciation (GOP) feedback.
+[![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
+[![ngôn ngữ: tiếng Việt](https://img.shields.io/badge/ngôn_ngữ-tiếng_Việt-brightgreen.svg)](#)
+[![language: English](https://img.shields.io/badge/language-English-lightgrey.svg)](README_EN.md)
 
 ---
 
-## 🖥️ Standalone Local Gradio GUI Preview
-
-The package comes with a built-in Gradio dashboard (`gui_local.py`) designed for standalone offline practice. It allows you to enter a target sentence, record your attempt, and view phone-level highlights along with your overall pronunciation score locally:
-
-![Local Gradio GUI Preview](assets/example-local.png)
+Vienounce Core là một thư viện Python mã nguồn mở được thiết kế để phân tích phát âm tiếng Anh và phát hiện các lỗi ngôn ngữ L1 transfer phổ biến ở người nói tiếng Việt. Thư viện sử dụng không gian ngữ âm song ngữ thống nhất để căn biên (align) các bản ghi âm của người dùng và tạo phản hồi mức độ chuẩn phát âm (GOP - Goodness of Pronunciation) ở cấp độ âm tố (phone).
 
 ---
 
-## ☁️ Personalised Cloud Dashboard Preview
+## 🖥️ Giao diện Gradio GUI 
 
-In our cloud version, our custom trained model also compares standard native references (Kokoro TTS) to assist learners in hearing L1 transfer differences:
+Thư viện đi kèm với một bảng điều khiển Gradio tích hợp (`gui_local.py`) phục vụ cho việc luyện tập offline độc lập. Nó cho phép bạn nhập câu đích, ghi âm lượt thử của mình và xem các điểm nổi bật ở cấp độ âm tố cùng với điểm phát âm tổng thể ngay trên máy tính:
 
-![Personalised Cloud Dashboard Preview](assets/example-cloud.png)
-
----
-
-## Features
-
-*   **Bilingual Phoneme Mapping**: Seamlessly converts English targets using the bilingual `sea-g2p` phonemizer.
-*   **Phone-Level Diagnostics**: Utilizes a Wav2Vec2 acoustic forced-aligner (`facebook/wav2vec2-xlsr-53-espeak-cv-ft`) to align audio to IPA phonemes.
-*   **Goodness of Pronunciation (GOP)**: Computes posterior log-probabilities per phoneme to score accuracy.
-*   **Standardized Thresholds**: Maps GOP scores to visual markers:
-    *   🟢 **Green (Correct)**: $\text{GOP} \ge -2.5$
-    *   🟡 **Yellow (Accented/Marginal)**: $-5.0 \le \text{GOP} < -2.5$
-    *   🔴 **Red (Dropped/Incorrect)**: $\text{GOP} < -5.0$
-*   **Offline-First & CPU-Friendly**: Operates fully locally, loading models on CPU without database or cloud storage dependencies.
-*   **Local Gradio GUI**: Interactive web dashboard (`gui_local.py`) to test evaluations on any sentence.
+![Xem trước Gradio GUI cục bộ](assets/example-local.png)
 
 ---
 
-## Installation
+## ☁️ Giao diện Cloud 
 
-### Prerequisites
-Make sure `ffmpeg` is installed on your system to support audio transcoding:
+Trong phiên bản Web, mô hình được huấn luyện tùy chỉnh của chúng tôi cũng so sánh với các bản tham chiếu giọng bản xứ chuẩn (Kokoro TTS) để giúp người học nghe rõ sự khác biệt do ảnh hưởng ngữ âm tiếng Việt:
+
+![Xem trước giao diện Cloud](assets/example-cloud.png)
+
+---
+
+## Tính năng chính
+
+*   **Ánh xạ âm vị song ngữ**: Chuyển đổi các từ tiếng Anh mục tiêu một cách mượt mà bằng bộ phiên âm song ngữ `sea-g2p`.
+*   **Chẩn đoán cấp độ âm tố**: Sử dụng mô hình căn biên âm học Wav2Vec2 (`facebook/wav2vec2-xlsr-53-espeak-cv-ft`) để căn khớp âm thanh với các âm tố IPA.
+*   **Đánh giá mức độ chuẩn phát âm (GOP)**: Tính toán xác suất hậu nghiệm logarit (posterior log-probabilities) trên từng âm tố để chấm điểm độ chính xác.
+*   **Ngưỡng đánh giá chuẩn hóa**: Ánh xạ điểm GOP sang các chỉ dấu trực quan trực quan:
+    *   🟢 **Xanh lá (Chính xác)**: $\text{GOP} \ge -2.5$
+    *   🟡 **Vàng (Giọng địa phương/Gần đạt)**: $-5.0 \le \text{GOP} < -2.5$
+    *   🔴 **Đỏ (Nuốt âm/Sai)**: $\text{GOP} < -5.0$
+*   **Ưu tiên chạy ngoại tuyến & Thân thiện với CPU**: Hoạt động hoàn toàn cục bộ, tải các mô hình trên CPU mà không cần cơ sở dữ liệu hay phụ thuộc vào lưu trữ đám mây.
+*   **Giao diện Gradio GUI cục bộ**: Giao diện web tương tác (`gui_local.py`) để thử nghiệm đánh giá trên bất kỳ câu nào.
+
+---
+
+## Cài đặt
+
+### Yêu cầu hệ thống
+Đảm bảo đã cài đặt `ffmpeg` trên hệ thống của bạn để hỗ trợ chuyển đổi định dạng âm thanh:
 ```bash
-# On Ubuntu/Debian:
+# Trên Ubuntu/Debian:
 sudo apt-get install ffmpeg
 ```
 
-### Setup Virtual Environment
-We recommend using `uv` or `pip` in a virtual environment:
+### Thiết lập môi trường ảo
+Chúng tôi khuyên dùng `uv` hoặc `pip` trong môi trường ảo:
 ```bash
-# Clone the repository and navigate to the core directory
+# Nhân bản kho lưu trữ và di chuyển đến thư mục core
 cd vienounce-core
 
-# Install in editable mode
+# Cài đặt ở chế độ chỉnh sửa trực tiếp (editable mode)
 pip install -e .
 ```
 
 ---
 
-## Quickstart
+## Bắt đầu nhanh
 
-### 1. Launch the Standalone GUI Demo
-Run the local Gradio interface:
+### 1. Khởi chạy bản thử nghiệm GUI độc lập
+Chạy giao diện Gradio cục bộ:
 ```bash
 python gui_local.py
 ```
-Open `http://127.0.0.1:7860` in your web browser, type a target sentence, record your attempt, and click **Diagnose My Pronunciation**.
+Mở `http://127.0.0.1:7860` trong trình duyệt web, nhập câu đích, ghi âm lượt thử và nhấp vào **Chẩn đoán phát âm của tôi** (Diagnose My Pronunciation).
 
-### 2. Programmatic Usage in Python
-You can import `vienounce_core` directly into your custom scripts:
+### 2. Sử dụng trực tiếp trong mã Python
+Bạn có thể nhập trực tiếp `vienounce_core` vào tập lệnh tùy chỉnh của mình:
 
 ```python
 import os
 from vienounce_core.models import local_models
 from vienounce_core.diagnostics import DiagnosticsService
 
-# 1. Initialize offline model container (loads Wav2Vec2 + sea-g2p)
+# 1. Khởi tạo bộ chứa mô hình ngoại tuyến (tải Wav2Vec2 + sea-g2p)
 local_models.initialize()
 
-# 2. Instantiate the Diagnostics Service
+# 2. Khởi tạo dịch vụ chẩn đoán
 diag_service = DiagnosticsService(
     phoneme_model=local_models.phoneme_model,
     feature_extractor=local_models.feature_extractor,
@@ -83,13 +89,13 @@ diag_service = DiagnosticsService(
     g2p_pipeline=local_models.g2p_pipeline
 )
 
-# 3. Diagnose an audio clip against target text
+# 3. Chẩn đoán một clip âm thanh so với văn bản đích
 result = diag_service.diagnose_audio(
     user_wav_path="path/to/recording.wav",
     text="I like to eat apples"
 )
 
-# 4. View phone scoring metrics
+# 4. Xem các số liệu chấm điểm âm tố
 print(f"Overall Score: {result['overall_score']}%")
 for word_info in result["words"]:
     print(f"\nWord: {word_info['word']} (Skipped: {word_info['skipped']})")
@@ -99,12 +105,19 @@ for word_info in result["words"]:
 
 ---
 
-## Benchmarks
+## Đánh giá hiệu năng (Benchmarks)
 
-Vienounce Core has been validated against the gold-standard L2-ARCTIC Vietnamese speaker dataset. For detailed evaluation metrics (precision, recall, separation margins) and comparison to custom calibrated models, see [BENCHMARKS.md](BENCHMARKS.md).
+Vienounce Core đã được kiểm chứng trên tập dữ liệu chuẩn L2-ARCTIC của người Việt nói tiếng Anh. Để xem các số liệu đánh giá chi tiết (độ chính xác, độ phủ, biên phân tách) và so sánh với mô hình tùy chỉnh, xem tại [BENCHMARKS.md](BENCHMARKS.md).
 
 ---
 
-## License
+## Ghi nhận
 
-This project is licensed under the Apache License 2.0.
+*   **Kokoro TTS**: Được sử dụng để tạo các đoạn âm thanh tham chiếu giọng bản xứ chuẩn [hexgrad/Kokoro-82M](https://huggingface.co/hexgrad/Kokoro-82M).
+*   **VieNeu-TTS** và **sea-g2p**: Được sử dụng để tạo âm thanh phát âm tiếng Anh giọng Việt nhằm làm nổi bật các lỗi chuyển di ngôn ngữ (L1 transfer) [pnnbao/97sea-g2p](https://github.com/pnnbao97/sea-g2p)  [pnnbao97/VieNeu-TTS](https://github.com/pnnbao97/VieNeu-TTS). 
+
+---
+
+## Giấy phép
+
+Dự án này được cấp phép theo Giấy phép Apache 2.0.
