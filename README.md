@@ -1,8 +1,8 @@
 # Vienounce Core
 
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
-[![ngôn ngữ: tiếng Việt](https://img.shields.io/badge/ngôn_ngữ-tiếng_Việt-brightgreen.svg)](#)
-[![language: English](https://img.shields.io/badge/language-English-lightgrey.svg)](README_EN.md)
+[![Language: Vietnamese](https://img.shields.io/badge/Readme-VN-brightgreen.svg)](#)
+[![Language: English](https://img.shields.io/badge/Readme-EN-lightgrey.svg)](README_EN.md)
 
 ---
 
@@ -12,7 +12,7 @@ Vienounce Core là một thư viện Python mã nguồn mở được thiết k�
 
 ## 🖥️ Giao diện Gradio GUI 
 
-Thư viện đi kèm với một bảng điều khiển Gradio tích hợp (`gui_local.py`) phục vụ cho việc luyện tập offline độc lập. Nó cho phép bạn nhập câu đích, ghi âm lượt thử của mình và xem các điểm nổi bật ở cấp độ âm tố cùng với điểm phát âm tổng thể ngay trên máy tính:
+Thư viện đi kèm với một giao diện Gradio tích hợp (`gui_local.py`) phục vụ cho việc luyện tập offline độc lập. Nó cho phép bạn nhập câu đích, ghi âm lượt thử của mình và xem các điểm nổi bật ở cấp độ âm tố cùng với điểm phát âm tổng thể ngay trên máy tính:
 
 ![Xem trước Gradio GUI cục bộ](assets/example-local.png)
 
@@ -36,7 +36,7 @@ Trong phiên bản Web, mô hình được huấn luyện tùy chỉnh của ch�
     *   🟡 **Vàng (Giọng địa phương/Gần đạt)**: $-5.0 \le \text{GOP} < -2.5$
     *   🔴 **Đỏ (Nuốt âm/Sai)**: $\text{GOP} < -5.0$
 *   **Ưu tiên chạy ngoại tuyến & Thân thiện với CPU**: Hoạt động hoàn toàn cục bộ, tải các mô hình trên CPU mà không cần cơ sở dữ liệu hay phụ thuộc vào lưu trữ đám mây.
-*   **Giao diện Gradio GUI cục bộ**: Giao diện web tương tác (`gui_local.py`) để thử nghiệm đánh giá trên bất kỳ câu nào.
+*   **Giao diện Gradio GUI**: Giao diện web tương tác (`gui_local.py`) để thử nghiệm đánh giá trên bất kỳ câu nào.
 
 ---
 
@@ -49,7 +49,7 @@ Trong phiên bản Web, mô hình được huấn luyện tùy chỉnh của ch�
 sudo apt-get install ffmpeg
 ```
 
-### Thiết lập môi trường ảo
+### Thiết lập môi trường Python
 Chúng tôi khuyên dùng `uv` hoặc `pip` trong môi trường ảo:
 ```bash
 # Nhân bản kho lưu trữ và di chuyển đến thư mục core
@@ -63,51 +63,25 @@ pip install -e .
 
 ## Bắt đầu nhanh
 
-### 1. Khởi chạy bản thử nghiệm GUI độc lập
-Chạy giao diện Gradio cục bộ:
+
+Chạy giao diện Gradio:
 ```bash
 python gui_local.py
 ```
 Mở `http://127.0.0.1:7860` trong trình duyệt web, nhập câu đích, ghi âm lượt thử và nhấp vào **Chẩn đoán phát âm của tôi** (Diagnose My Pronunciation).
 
-### 2. Sử dụng trực tiếp trong mã Python
-Bạn có thể nhập trực tiếp `vienounce_core` vào tập lệnh tùy chỉnh của mình:
-
-```python
-import os
-from vienounce_core.models import local_models
-from vienounce_core.diagnostics import DiagnosticsService
-
-# 1. Khởi tạo bộ chứa mô hình ngoại tuyến (tải Wav2Vec2 + sea-g2p)
-local_models.initialize()
-
-# 2. Khởi tạo dịch vụ chẩn đoán
-diag_service = DiagnosticsService(
-    phoneme_model=local_models.phoneme_model,
-    feature_extractor=local_models.feature_extractor,
-    vocab=local_models.vocab,
-    g2p_pipeline=local_models.g2p_pipeline
-)
-
-# 3. Chẩn đoán một clip âm thanh so với văn bản đích
-result = diag_service.diagnose_audio(
-    user_wav_path="path/to/recording.wav",
-    text="I like to eat apples"
-)
-
-# 4. Xem các số liệu chấm điểm âm tố
-print(f"Overall Score: {result['overall_score']}%")
-for word_info in result["words"]:
-    print(f"\nWord: {word_info['word']} (Skipped: {word_info['skipped']})")
-    for highlight in word_info["highlights"]:
-        print(f"  Phone: /{highlight['phone']}/ -> GOP: {highlight['gop']} ({highlight['status']})")
-```
 
 ---
 
-## Đánh giá hiệu năng (Benchmarks)
+## Đánh giá hiệu quả (Benchmarks)
 
-Vienounce Core đã được kiểm chứng trên tập dữ liệu chuẩn L2-ARCTIC của người Việt nói tiếng Anh. Để xem các số liệu đánh giá chi tiết (độ chính xác, độ phủ, biên phân tách) và so sánh với mô hình tùy chỉnh, xem tại [BENCHMARKS.md](BENCHMARKS.md).
+Vienounce Core được kiểm thử và tối ưu trực tiếp dựa trên các bản ghi âm thực tế từ người Việt học tiếng Anh (sử dụng bộ cơ sở dữ liệu chuẩn L2-ARCTIC). Kết quả đo lường thực tế cho thấy:
+
+*   **Khả năng bắt lỗi phát âm (Recall - 28.9%)**: Nhận diện chính xác 28.9% các âm bị nuốt hoặc phát âm sai. Trong phiên bản đám mây (Cloud), tỷ lệ này được cải thiện lên **40.3%** nhờ mô hình adapter đặc thù.
+*   **Độ chính xác của cảnh báo (Precision - 50.6%)**: Khoảng một nửa số âm tố bị hệ thống gắn nhãn đỏ/vàng đại diện chính xác cho các lỗi phát âm thực tế của người dùng, giúp hạn chế cảnh báo sai làm phiền quá trình luyện tập.
+*   **Biên độ phân tách (1.07)**: Khả năng phân biệt rõ ràng giữa âm phát âm đúng và âm bị phát âm sai của người Việt trên các âm cuối quan trọng (như phụ âm cuối `/k, t, p/` hay âm gió `/s, z/`).
+
+Để xem báo cáo hiệu năng đầy đủ và so sánh chi tiết với mô hình phiên bản đám mây, vui lòng đọc [BENCHMARKS.md](BENCHMARKS.md).
 
 ---
 

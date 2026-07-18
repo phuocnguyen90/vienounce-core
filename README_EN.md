@@ -1,8 +1,8 @@
 # Vienounce Core
 
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
-[![ngôn ngữ: tiếng Việt](https://img.shields.io/badge/ngôn_ngữ-tiếng_Việt-lightgrey.svg)](README.md)
-[![language: English](https://img.shields.io/badge/language-English-brightgreen.svg)](#)
+[![Language: Vietnamese](https://img.shields.io/badge/Readme-🇻🇳-lightgrey.svg)](README.md)
+[![Language: English](https://img.shields.io/badge/Readme-🇺🇸-brightgreen.svg)](#)
 
 ---
 
