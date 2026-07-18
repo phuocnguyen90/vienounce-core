@@ -4,6 +4,22 @@ Vienounce Core is an open-source, offline Python library designed to analyze Eng
 
 ---
 
+## 🖥️ Standalone Local Gradio GUI Preview
+
+The package comes with a built-in Gradio dashboard (`gui_local.py`) designed for standalone offline practice. It allows you to enter a target sentence, record your attempt, and view phone-level highlights along with your overall pronunciation score locally:
+
+![Local Gradio GUI Preview](assets/example-local.png)
+
+---
+
+## ☁️ Personalised Cloud Dashboard Preview
+
+In our cloud version, our custom trained model also compares standard native references (Kokoro TTS) to assist learners in hearing L1 transfer differences:
+
+![Personalised Cloud Dashboard Preview](assets/example-cloud.png)
+
+---
+
 ## Features
 
 *   **Bilingual Phoneme Mapping**: Seamlessly converts English targets using the bilingual `sea-g2p` phonemizer.
