@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=61.0.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "vienounce-core"
+version = "1.0.0"
+description = "Open-source phone-level English pronunciation diagnostics and forced aligner for Vietnamese L1 interference modeling"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "torch>=2.0.0",
+    "torchaudio>=2.0.0",
+    "transformers>=4.30.0",
+    "huggingface-hub>=0.15.0",
+    "numpy>=1.22.0",
+    "onnxruntime>=1.20.0",
+    "gradio>=5.49.1",
+    "librosa>=0.11.0",
+    "sea-g2p>=0.7.19"
+]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["vienounce_core*"]
